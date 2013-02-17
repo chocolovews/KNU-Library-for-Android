@@ -7,6 +7,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.knu_library.R;
 
@@ -14,7 +15,7 @@ public class KLMainLogInDialog {
 	
 	public static final String TAG = "KLMainLogInDialog";
 	
-	public static void showLogInDialog(Context context) {
+	public static void showLogInDialog(final Context context) {
 		
 		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View dialogView = inflate.inflate(R.layout.dialog_login, null);
@@ -35,6 +36,7 @@ public class KLMainLogInDialog {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Log.i(TAG, "확인");
+				Toast.makeText(context, "로그인 중...", Toast.LENGTH_SHORT).show();
 			}
 		})
 		.show();
