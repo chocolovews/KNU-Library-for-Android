@@ -64,8 +64,6 @@ public class KLMainActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.addTab(actionBar.newTab().setText(R.string.title_section2).setTabListener(KLMainActivity.this));
         actionBar.addTab(actionBar.newTab().setText(R.string.title_section3).setTabListener(KLMainActivity.this));
         actionBar.addTab(actionBar.newTab().setText(R.string.title_section4).setTabListener(KLMainActivity.this));
-        
-        // 액션바에 로그인 기능 추가
 	}
 
     @Override
@@ -93,7 +91,7 @@ public class KLMainActivity extends FragmentActivity implements ActionBar.TabLis
     	switch (item.getItemId()) {
 		case R.id.main_login_item:
 //			Log.i(TAG, "login button clicked");
-			KLLogInProcessor.logInToServer();
+			KLMainLogInDialog.showLogInDialog(this);
 			break;
 		}
     	return true;
