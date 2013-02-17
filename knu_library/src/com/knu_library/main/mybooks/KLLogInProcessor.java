@@ -1,4 +1,4 @@
-package com.example.knu_library_for_android.main.mybooks;
+package com.knu_library.main.mybooks;
 
 public class KLLogInProcessor {
 	public static boolean logInToServer() {

@@ -1,11 +1,10 @@
-package com.example.knu_library_for_android.main;
+package com.knu_library.main;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.knu_library_for_android.R;
-import com.example.knu_library_for_android.main.mybooks.KLLogInProcessor;
+import com.knu_library.R;
+import com.knu_library.main.mybooks.KLLogInProcessor;
 
 public class KLMainActivity extends FragmentActivity implements ActionBar.TabListener {
 

@@ -1,12 +1,12 @@
-package com.example.knu_library_for_android.intro;
+package com.knu_library.intro;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.example.knu_library_for_android.R;
-import com.example.knu_library_for_android.main.KLMainActivity;
+import com.knu_library.R;
+import com.knu_library.main.KLMainActivity;
 
 /**
  * 인트로 화면. 자동으로 메인으로 넘어간다 
