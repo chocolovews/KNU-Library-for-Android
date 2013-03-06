@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/dialog_login_id_linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/dialog_login_id_editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="도서관 아이디"
+            android:singleLine="true"
+            android:inputType="number" >
+
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:id="@+id/dialog_login_id_remove_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/navigation_cancel" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dialog_login_password_linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/dialog_login_id_linear"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/dialog_login_password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="비밀번호"
+            android:inputType="numberPassword"
+            android:singleLine="true" />
+        
+        <ImageView
+            android:id="@+id/dialog_login_password_remove_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/navigation_cancel" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_login_autologin_linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/dialog_login_password_linear"
+        android:orientation="horizontal" >
+        
+        <CheckBox
+            android:id="@+id/dialog_login_checkbox_autologin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자동 로그인" />
+    </LinearLayout>
+
+</RelativeLayout>
