@@ -43,17 +43,14 @@ public class KLSeatsInfoParsingThread extends Thread {
 			
 			StringBuilder htmlString = new StringBuilder();
 			if (connection != null) {
-				connection.setConnectTimeout(10000);
-				connection.setUseCaches(false);
+				connection.setConnectTimeout(20000);
+//				connection.setUseCaches(false);
 				if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 					
 					BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "EUC-KR"));
-					for(;;) {
-						String line = br.readLine();
-						if (line == null) {
-							break;
-						}
-						htmlString.append(line + "\n");
+					String lineString = null;
+					while ((lineString = br.readLine()) != null) {
+						htmlString.append(lineString + "\n");
 					}
 					br.close();
 				}
