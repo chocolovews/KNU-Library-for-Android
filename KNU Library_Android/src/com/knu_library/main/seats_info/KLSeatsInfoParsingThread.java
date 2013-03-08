@@ -21,6 +21,7 @@ public class KLSeatsInfoParsingThread extends Thread {
 	
 	Context m_context = null;
 	KLSeatsInfoListFragment m_SuperListFragment = null;
+	ArrayList<KLSeatInfo> seatInfoList = null;
 	
 	public KLSeatsInfoParsingThread(Context context, KLSeatsInfoListFragment superListFragment) {
 		m_context = context;
@@ -32,7 +33,6 @@ public class KLSeatsInfoParsingThread extends Thread {
 	@Override
 	public void run() {
 		super.run();
-		ArrayList<KLSeatInfoModel> seatsInfoModelList = new ArrayList<KLSeatInfoModel>();
 		
 		// 파싱 시작
 		try {
@@ -43,11 +43,11 @@ public class KLSeatsInfoParsingThread extends Thread {
 			
 			StringBuilder htmlString = new StringBuilder();
 			if (connection != null) {
-				connection.setConnectTimeout(20000);
+				connection.setConnectTimeout(10000);
 //				connection.setUseCaches(false);
 				if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 					
-					BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "EUC-KR"));
+					BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "EUC-KR"), connection.getContentLength());
 					String lineString = null;
 					while ((lineString = br.readLine()) != null) {
 						htmlString.append(lineString + "\n");
@@ -58,13 +58,65 @@ public class KLSeatsInfoParsingThread extends Thread {
 			}
 
 			// 모든 처리가 완료되면 ListFragment에 콜백
-			Log.i(TAG, htmlString.toString());
-			m_SuperListFragment.threadDidParsing(seatsInfoModelList);
+//			Log.i(TAG, htmlString.toString());
+			seatInfoList = new ArrayList<KLSeatInfo>();
+			parseHtmlString(htmlString.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 실패 했을 경우를 대비하기
 			m_SuperListFragment.threadFailedParsing();
 		}
+	}
+	
+	private void parseHtmlString(String htmlString) {
+		
+		// 각 열람실 별 String으로 분리
+		String[] seatInfoArray1 = htmlString.split("<a href=\"JavaScript:ExcelSave();\"><img src=\"./images/ExcelSave.gif\" border=0></a>&nbsp;");
+		String[] seatInfoArray2 = seatInfoArray1[0].split("이용율");
+		
+		// 각 층별로 나누어진 Array
+		String[] seatInfoSeperatedArray = seatInfoArray2[1].split("</FONT></TD></TR><TR ALIGN=\"CENTER\" style=\"background-color:");
+		
+		// 각 열람실 별 정보 파싱하기
+		for (int i = 0; i < seatInfoSeperatedArray.length; i++) {
+			KLSeatInfo seatInfo = new KLSeatInfo();
+			
+			String splitTokenString = "room_no=";
+			String indexString = String.format("%d", i+1);
+			splitTokenString += indexString;
+			splitTokenString += "\">&nbsp;";
+			
+			// RoomName
+			String[] parsedArray1 = seatInfoSeperatedArray[i].split(splitTokenString);
+			String[] parsedArray2 = parsedArray1[1].split("</A></FONT></TD><TD ALIGN=\"CENTER\"><FONT SIZE=-1>&nbsp;");			
+			seatInfo.roomName = parsedArray2[0];
+			
+			// TotalSeat
+			String[] parsedArray3 = parsedArray2[1].split("</FONT></TD><TD ALIGN=\"CENTER\"><FONT SIZE=-1>&nbsp;");			
+			seatInfo.totalNumberOfSeats = Integer.valueOf(parsedArray3[0]);
+			
+			// CurrentUsedSeat
+			String[] parsedArray4 = parsedArray3[1].split("</FONT></TD><TD ALIGN=\"CENTER\"><FONT COLOR=\"blue\" SIZE=-1>&nbsp;");
+			seatInfo.currentAvailableNumberOfSeats = Integer.valueOf(parsedArray4[0]);
+			
+			// CurrentAvailableSeat
+			String[] parsedArray5 = parsedArray4[1].split("</FONT></TD><TD ALIGN=\"LEFT\">");
+			seatInfo.currentAvailableNumberOfSeats = Integer.valueOf(parsedArray5[0]);
+			
+			// UsagePercent
+			String[] parsedArray6 = parsedArray5[1].split("border=0 alt=\"");
+			String[] parsedArray7 = parsedArray6[1].split("\">");
+			String[] parsedArray8 = parsedArray7[0].split(" %");
+			
+			seatInfo.usagePercentage = parsedArray8[0];
+			seatInfo.usagePercentage += "%";
+			
+			// seatInfo Container 테스트
+			// seatInfo Container 에 추가
+			seatInfoList.add(seatInfo);
+		}
+		
+		m_SuperListFragment.threadDidParsing(seatInfoList);
 	}
 }

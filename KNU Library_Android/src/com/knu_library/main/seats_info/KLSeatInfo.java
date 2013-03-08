@@ -5,9 +5,9 @@ package com.knu_library.main.seats_info;
  * @author Wooseong Kim   
  *
  */
-public class KLSeatInfoModel {
+public class KLSeatInfo {
 	public String roomName = "";
 	public int totalNumberOfSeats = 0;
 	public int currentAvailableNumberOfSeats = 0;
-	public int usagePercentage = 0;
+	public String usagePercentage = null;
 }

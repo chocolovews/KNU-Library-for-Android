@@ -14,6 +14,7 @@ public class KLSeatsInfoListFragment extends ListFragment {
 	private static final String TAG = "KLSeatsInfoListFragment";
 	
 	public Context m_context;
+	private ArrayList<KLSeatInfo> m_seatInfoModelList;
 	
 	@Override 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -36,13 +37,14 @@ public class KLSeatsInfoListFragment extends ListFragment {
 		seatsInfoParsingThread.start();
 	}
 	
-	public void threadDidParsing(ArrayList<KLSeatInfoModel> seatInfoModelList) {
+	public void threadDidParsing(ArrayList<KLSeatInfo> seatInfoModelList) {
 		// 필요한 정보를 받아서 파싱을 완료하고 어댑터를 만들어서 보여줌. 그동안은 로딩 화면을 보여줄 수 있으면 좋을 듯.
+		m_seatInfoModelList = seatInfoModelList;
 		((Activity)m_context).runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				ListAdapter roomsListAdapter = new KLSeatsInfoListAdapter(getActivity());
+				ListAdapter roomsListAdapter = new KLSeatsInfoListAdapter(getActivity(), m_seatInfoModelList);
 				setListAdapter(roomsListAdapter);	
 			}
 		});
